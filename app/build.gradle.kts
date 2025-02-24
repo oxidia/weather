@@ -2,6 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    // ksp
+    alias(libs.plugins.kotlin.devtools.ksp)
+
+    // dagger hilt
+    alias(libs.plugins.android.dagger.hilt)
+
+    // room
+    alias(libs.plugins.androidx.room)
 }
 
 android {
@@ -10,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.weather"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -37,6 +46,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    // room
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -56,4 +70,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // dagger hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+
+    // retrofit2
+    implementation(libs.retrofit)
+    // gson
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+
+    // location
+    implementation(libs.play.services.location)
+
+    // room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
