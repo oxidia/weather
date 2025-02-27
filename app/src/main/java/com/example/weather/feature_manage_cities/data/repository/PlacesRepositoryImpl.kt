@@ -25,14 +25,6 @@ class PlacesRepositoryImpl @Inject constructor(
             placeId = placeId
         )
 
-        println("GetPlaceById $placeId")
-
-        if (place != null) {
-            println("GetPlaceById ${place.result.name}")
-        } else {
-            println("GetPlaceById place is null")
-        }
-
         return place.toPlaceData()
     }
 }
