@@ -1,5 +1,6 @@
 package com.example.weather.feature_manage_cities.presentation.list_cities
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,18 +47,23 @@ fun CitiesListScreen(
         }
     }
 
-
     Column(
         modifier = Modifier
-            .statusBarsPadding()
             .fillMaxSize()
-            .padding(
-                horizontal = 8.dp
+            .background(
+                color = MaterialTheme.colorScheme.primaryContainer,
             )
+            .statusBarsPadding()
+            .padding(
+                horizontal = 16.dp
+            ),
     ) {
+        Spacer(Modifier.height(16.dp))
+
         Text(
             text = "Manage cities",
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -81,7 +88,7 @@ fun CitiesListScreen(
                     onCardClick = {
                         navController.navigate(
                             Screen.Weather.passCoordinates(
-                                lat =  city.latitude,
+                                lat = city.latitude,
                                 lng = city.longitude
                             )
                         )

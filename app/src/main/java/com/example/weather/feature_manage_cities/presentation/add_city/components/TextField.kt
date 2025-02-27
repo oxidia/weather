@@ -15,12 +15,14 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,10 +38,7 @@ fun TextField(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(1000.dp)
-
-    val textStyle = TextStyle(
-        fontSize = 12.sp,
-    )
+    val fontSize = 12.sp
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -48,7 +47,7 @@ fun TextField(
             .height(40.dp)
             .clip(shape)
             .background(
-                color = Color.White
+                color = MaterialTheme.colorScheme.background,
             )
             .padding(
                 horizontal = 8.dp,
@@ -61,24 +60,30 @@ fun TextField(
         }
 
         Box {
-            BasicTextField(
-                value = value,
-                onValueChange = onValueChange,
-                textStyle = textStyle,
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth(),
-            )
-
             if (placeholder != null && value.isBlank()) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    style = textStyle,
+                    style = TextStyle(
+                        fontSize = fontSize
+                    ),
                     text = placeholder,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
             }
+
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                textStyle = TextStyle(
+                    fontSize = fontSize,
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+                singleLine = true,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
         }
     }
 }

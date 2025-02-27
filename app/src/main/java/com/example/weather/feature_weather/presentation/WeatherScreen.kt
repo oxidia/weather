@@ -8,17 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.weather.core.presentation.ui.theme.DarkBlue
-import com.example.weather.core.presentation.ui.theme.DeepBlue
 import com.example.weather.feature_weather.presentation.components.ScreenHeader
 import com.example.weather.feature_weather.presentation.components.WeatherCard
 import com.example.weather.feature_weather.presentation.components.WeatherForecast
@@ -53,7 +51,7 @@ fun WeatherScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBlue)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .statusBarsPadding()
     ) {
         Column(
@@ -67,9 +65,9 @@ fun WeatherScreen(
 
             WeatherCard(
                 weatherInfo = viewModel.state.weatherInfo,
-                backgroundColor = DeepBlue
+                backgroundColor = MaterialTheme.colorScheme.background
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(Modifier.height(16.dp))
             WeatherForecast(state = viewModel.state)
         }
 
@@ -82,7 +80,7 @@ fun WeatherScreen(
         viewModel.state.error?.let { error ->
             Text(
                 text = error,
-                color = Color.Red,
+                color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )

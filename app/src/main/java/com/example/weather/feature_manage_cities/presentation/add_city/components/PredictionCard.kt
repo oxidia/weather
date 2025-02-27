@@ -13,16 +13,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weather.core.presentation.ui.theme.DeepBlue
 import com.example.weather.feature_manage_cities.domain.google.Prediction
 
 @Composable
@@ -34,7 +33,7 @@ fun PredictionCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xA0D9EFFF),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
         ),
         shape = RoundedCornerShape(8.dp),
         modifier = modifier
@@ -50,7 +49,7 @@ fun PredictionCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                color = DeepBlue,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 text = prediction.description,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
@@ -64,7 +63,7 @@ fun PredictionCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         text = "added",
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Normal,
@@ -79,7 +78,7 @@ fun PredictionCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        tint = DeepBlue,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
                         contentDescription = "add"
                     )
                 }
