@@ -87,10 +87,7 @@ fun CitiesListScreen(
                     },
                     onCardClick = {
                         navController.navigate(
-                            Screen.Weather.passCoordinates(
-                                lat = city.latitude,
-                                lng = city.longitude
-                            )
+                            Screen.Weather.passCityId(city.id!!)
                         )
                     }
                 )

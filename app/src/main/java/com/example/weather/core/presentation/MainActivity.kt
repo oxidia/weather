@@ -44,12 +44,9 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = Screen.Weather.route,
                         arguments = listOf(
-                            navArgument(Screen.Weather.LATITUDE_PARAM) {
-                                type = NavType.StringType
+                            navArgument(Screen.Weather.CITY_ID_PARAM) {
+                                type = NavType.IntType
                             },
-                            navArgument(Screen.Weather.LONGITUDE_PARAM) {
-                                type = NavType.StringType
-                            }
                         )
                     ) {
                         WeatherScreen(

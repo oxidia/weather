@@ -2,13 +2,12 @@ package com.example.weather.core.util
 
 
 sealed class Screen(val route: String) {
-    data object Weather : Screen("weather_screen?lat={lat}&lng={lng}") {
+    data object Weather : Screen("weather_screen/{cityId}") {
 
-        const val LATITUDE_PARAM = "lat"
-        const val LONGITUDE_PARAM = "lng"
+        const val CITY_ID_PARAM = "cityId"
 
-        fun passCoordinates(lat: Double, lng: Double): String {
-            return "weather_screen?lat=$lat&lng=$lng"
+        fun passCityId(cityId: Int): String {
+            return "weather_screen/$cityId"
         }
     }
 

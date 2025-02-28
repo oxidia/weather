@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.core.domain.location.LocationTracker
+import com.example.weather.core.domain.repository.CityRepository
 import com.example.weather.core.util.Resource
 import com.example.weather.core.util.Screen
 import com.example.weather.feature_weather.domain.repository.WeatherRepository
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
     private val locationTracker: LocationTracker,
+    private val cityRepository: CityRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -25,16 +27,11 @@ class WeatherViewModel @Inject constructor(
         private set
 
     init {
-        val latitude =
-            savedStateHandle.get<String>(Screen.Weather.LATITUDE_PARAM)
-        val longitude =
-            savedStateHandle.get<String>(Screen.Weather.LONGITUDE_PARAM)
+        val cityId =
+            savedStateHandle.get<Int>(Screen.Weather.CITY_ID_PARAM)
 
-        if (latitude != null && longitude != null) {
-            loadWeatherInfo(
-                latitude = latitude.toDouble(),
-                longitude = longitude.toDouble()
-            )
+        cityId?.let {
+            loadWeatherInfo(it)
         }
     }
 
@@ -67,6 +64,20 @@ class WeatherViewModel @Inject constructor(
                         error = response.message
                     )
                 }
+            }
+        }
+    }
+
+    private fun loadWeatherInfo(cityId: Int) {
+        viewModelScope.launch {
+            val city = cityRepository.getCityById(cityId)
+
+            if (city != null) {
+                state = state.copy(
+                    city = city
+                )
+
+                loadWeatherInfo(city.latitude, city.longitude)
             }
         }
     }

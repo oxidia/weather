@@ -17,6 +17,10 @@ class CityRepositoryImpl(
         return cityDao.getCities()
     }
 
+    override suspend fun getCityById(id: Int): City? {
+        return cityDao.getCityById(id)
+    }
+
     override suspend fun deleteCity(city: City) {
         cityDao.deleteCity(city)
     }

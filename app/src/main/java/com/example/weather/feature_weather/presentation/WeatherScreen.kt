@@ -26,6 +26,7 @@ fun WeatherScreen(
     viewModel: WeatherViewModel = hiltViewModel(),
     navController: NavController,
 ) {
+    val state = viewModel.state
 //    val permissionLauncher = rememberLauncherForActivityResult(
 //        ActivityResultContracts.RequestMultiplePermissions()
 //    ) {result ->
@@ -63,21 +64,24 @@ fun WeatherScreen(
                 }
             )
 
-            WeatherCard(
-                weatherInfo = viewModel.state.weatherInfo,
-                backgroundColor = MaterialTheme.colorScheme.background
-            )
+            if (state.city != null && state.weatherInfo?.currentWeatherData != null) {
+                WeatherCard(
+                    weatherData = state.weatherInfo.currentWeatherData,
+                    city = state.city,
+                    backgroundColor = MaterialTheme.colorScheme.background
+                )
+            }
             Spacer(Modifier.height(16.dp))
-            WeatherForecast(state = viewModel.state)
+            WeatherForecast(state = state)
         }
 
-        if (viewModel.state.isLoading) {
+        if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
 
-        viewModel.state.error?.let { error ->
+        state.error?.let { error ->
             Text(
                 text = error,
                 color = MaterialTheme.colorScheme.error,

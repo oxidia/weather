@@ -9,5 +9,7 @@ interface CityRepository {
 
     fun getCities(): Flow<List<City>>
 
+    suspend fun getCityById(id: Int): City?
+
     suspend fun deleteCity(city: City)
 }

@@ -16,6 +16,9 @@ interface CityDao {
     @Query("SELECT * FROM cities ORDER BY created_at DESC")
     fun getCities(): Flow<List<City>>
 
+    @Query("SELECT * FROM cities WHERE id = :id")
+    suspend fun getCityById(id: Int): City?
+
     @Delete
     suspend fun deleteCity(city: City)
 }
