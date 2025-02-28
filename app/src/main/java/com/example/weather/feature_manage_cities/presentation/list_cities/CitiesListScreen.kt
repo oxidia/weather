@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.example.weather.core.util.Screen
 import com.example.weather.core.util.UIEvent
 import com.example.weather.feature_manage_cities.presentation.list_cities.components.CityCard
+import com.example.weather.feature_manage_cities.presentation.list_cities.components.EmptyListPlaceholder
 import com.example.weather.feature_manage_cities.presentation.list_cities.components.SearchButton
 
 @Composable
@@ -75,6 +76,15 @@ fun CitiesListScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        if (state.citiesList.isEmpty()) {
+            EmptyListPlaceholder(
+                modifier = Modifier.fillMaxSize(),
+                onAddNewCityClick = {
+                    viewModel.onEvent(CitiesListEvent.OnSearchButtonClick)
+                }
+            )
+        }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)

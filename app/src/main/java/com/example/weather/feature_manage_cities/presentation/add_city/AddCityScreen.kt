@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.example.weather.core.util.UIEvent
 import com.example.weather.feature_manage_cities.presentation.add_city.components.PredictionCard
 import com.example.weather.feature_manage_cities.presentation.add_city.components.TextField
+import com.example.weather.feature_manage_cities.presentation.add_city.components.EmptyListPlaceholder
 
 @Composable
 fun AddCityScreen(
@@ -100,6 +101,12 @@ fun AddCityScreen(
         }
 
         Spacer(Modifier.height(16.dp))
+
+        if (state.suggestions.isEmpty()) {
+            EmptyListPlaceholder(
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
