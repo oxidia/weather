@@ -24,7 +24,7 @@
 
 ## Demo Video
 
-<video src="./assets/demonstration.mp4" controls></video>
+<video src="https://github.com/user-attachments/assets/d5f5b71e-e2be-4855-8d10-6a91d802cabe" controls></video>
 
 ## Empty Cities List Screen
 
