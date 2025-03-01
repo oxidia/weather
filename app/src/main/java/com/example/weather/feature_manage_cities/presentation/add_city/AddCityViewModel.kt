@@ -7,17 +7,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.core.domain.model.City
 import com.example.weather.core.domain.repository.CityRepository
-import com.example.weather.feature_manage_cities.domain.repository.PlacesRepository
 import com.example.weather.core.util.UIEvent
 import com.example.weather.feature_manage_cities.domain.google.Prediction
+import com.example.weather.feature_manage_cities.domain.repository.PlacesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class AddCityViewModel @Inject constructor(
     private val placesRepository: PlacesRepository,
@@ -30,8 +34,11 @@ class AddCityViewModel @Inject constructor(
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    private val searchQueryFlow = MutableStateFlow("")
+
     init {
         initCities()
+        setupSearchQueryFlow()
     }
 
     fun onEvent(event: AddCityEvent) {
@@ -46,15 +53,8 @@ class AddCityViewModel @Inject constructor(
                         searchQuery = event.value
                     )
 
-                    if (event.value.length >= 3) {
-                        val places =
-                            placesRepository.getPredictions(event.value)
-
-                        onEvent(
-                            AddCityEvent.OnCitiesListChange(
-                                values = places
-                            )
-                        )
+                    if (event.value.length > 2) {
+                        searchQueryFlow.emit(event.value)
                     }
                 }
             }
@@ -100,6 +100,22 @@ class AddCityViewModel @Inject constructor(
                     longitude = place.location.lng,
                 )
             )
+        }
+    }
+
+    private fun setupSearchQueryFlow() {
+        viewModelScope.launch {
+            searchQueryFlow
+                .debounce(500)
+                .collect { searchQuery ->
+                    val places =
+                        placesRepository.getPredictions(searchQuery)
+                    onEvent(
+                        AddCityEvent.OnCitiesListChange(
+                            values = places
+                        )
+                    )
+                }
         }
     }
 
